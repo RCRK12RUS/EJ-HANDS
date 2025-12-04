@@ -245,15 +245,35 @@
             background-color: #d68910;
         }
 
+        .btn-info {
+            background-color: #17a2b8;
+            color: white;
+        }
+
+        .btn-info:hover {
+            background-color: #138496;
+        }
+
         .btn-export {
             background-color: #2ecc71;
             color: white;
-            margin-top: 20px;
+            margin-top: 10px;
             width: 100%;
         }
 
         .btn-export:hover {
             background-color: #27ae60;
+        }
+
+        .btn-import {
+            background-color: #17a2b8;
+            color: white;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        .btn-import:hover {
+            background-color: #138496;
         }
 
         .actions {
@@ -397,6 +417,171 @@
         .auto-fill-btn:hover {
             background-color: #8e44ad;
         }
+
+        .file-input-container {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .file-input {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px dashed #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .file-input:hover {
+            border-color: #4a6fa5;
+            background-color: #f0f7ff;
+        }
+
+        .file-input input {
+            display: none;
+        }
+
+        .file-input-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .file-input-label i {
+            font-size: 2rem;
+            color: #4a6fa5;
+        }
+
+        .date-range-selector {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .date-range-selector input {
+            flex: 1;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #1e3a5f;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            justify-content: flex-end;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #666;
+        }
+
+        .import-preview {
+            margin-top: 20px;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .import-preview table {
+            font-size: 0.9rem;
+        }
+
+        .import-summary {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+
+        .import-option {
+            margin-bottom: 15px;
+            padding: 10px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+        }
+
+        .import-option label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        .warning-message {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+
+        .tab.active {
+            border-bottom-color: #4a6fa5;
+            color: #4a6fa5;
+            font-weight: 600;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -453,6 +638,7 @@
                     <button class="month-btn" id="prev-month"><i class="fas fa-chevron-left"></i></button>
                     <div class="current-month" id="current-month">Январь 2025</div>
                     <button class="month-btn" id="next-month"><i class="fas fa-chevron-right"></i></button>
+                    <button class="month-btn" id="today-btn"><i class="fas fa-calendar-day"></i> Сегодня</button>
                 </div>
                 
                 <div class="table-container">
@@ -489,48 +675,143 @@
             </div>
 
             <div class="section">
-                <h2 class="section-title"><i class="fas fa-plus-circle"></i> Добавить мастер-класс</h2>
-                <form id="add-class-form">
-                    <div class="form-group">
-                        <label for="class-date"><i class="far fa-calendar"></i> Дата занятия</label>
-                        <input type="date" id="class-date" required>
+                <div class="tabs">
+                    <div class="tab active" data-tab="add">Добавить занятие</div>
+                    <div class="tab" data-tab="import">Импорт из Excel</div>
+                </div>
+                
+                <div class="tab-content active" id="add-tab">
+                    <h3 class="section-title"><i class="fas fa-plus-circle"></i> Добавить мастер-класс</h3>
+                    <form id="add-class-form">
+                        <div class="form-group">
+                            <label for="class-date"><i class="far fa-calendar"></i> Дата занятия</label>
+                            <input type="date" id="class-date" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="class-name"><i class="fas fa-pencil-alt"></i> Название мастер-класса</label>
+                            <input type="text" id="class-name" placeholder="Введите название мастер-класса" required>
+                            
+                            <div class="suggestions">
+                                <div class="suggestion-tag" data-name="Изготовление русской куклы-оберега">Кукла-оберег</div>
+                                <div class="suggestion-tag" data-name="Создание пейзажа в технике акварель">Пейзаж акварелью</div>
+                                <div class="suggestion-tag" data-name="Роспись деревянной ложки хохломой">Хохлома</div>
+                                <div class="suggestion-tag" data-name="Изготовление браслета из бисера">Браслет из бисера</div>
+                                <div class="suggestion-tag" data-name="Лепка из глины: народная игрушка">Глиняная игрушка</div>
+                                <div class="suggestion-tag" data-name="Вышивка крестом: русские узоры">Вышивка крестом</div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="participants"><i class="fas fa-user-friends"></i> Количество человек (5-15)</label>
+                            <input type="number" id="participants" min="5" max="15" value="10" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="class-status"><i class="fas fa-check-circle"></i> Статус занятия</label>
+                            <select id="class-status" required>
+                                <option value="completed">Проведено</option>
+                                <option value="planned">Запланировано</option>
+                            </select>
+                        </div>
+                        
+                        <div class="actions">
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Добавить занятие</button>
+                            <button type="button" class="btn btn-warning" id="auto-fill"><i class="fas fa-magic"></i> Автозаполнить с 15.01.2025</button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="tab-content" id="import-tab">
+                    <h3 class="section-title"><i class="fas fa-file-import"></i> Импорт данных из Excel</h3>
+                    
+                    <div class="warning-message">
+                        <i class="fas fa-exclamation-triangle"></i> 
+                        <strong>Внимание:</strong> Импорт заменит существующие данные за выбранный период. 
+                        Убедитесь, что файл соответствует формату.
                     </div>
                     
                     <div class="form-group">
-                        <label for="class-name"><i class="fas fa-pencil-alt"></i> Название мастер-класса</label>
-                        <input type="text" id="class-name" placeholder="Введите название мастер-класса" required>
-                        
-                        <div class="suggestions">
-                            <div class="suggestion-tag" data-name="Изготовление русской куклы-оберега">Кукла-оберег</div>
-                            <div class="suggestion-tag" data-name="Создание пейзажа в технике акварель">Пейзаж акварелью</div>
-                            <div class="suggestion-tag" data-name="Роспись деревянной ложки хохломой">Хохлома</div>
-                            <div class="suggestion-tag" data-name="Изготовление браслета из бисера">Браслет из бисера</div>
-                            <div class="suggestion-tag" data-name="Лепка из глины: народная игрушка">Глиняная игрушка</div>
-                            <div class="suggestion-tag" data-name="Вышивка крестом: русские узоры">Вышивка крестом</div>
+                        <label for="import-date-start"><i class="far fa-calendar"></i> Начальная дата (фильтр)</label>
+                        <input type="date" id="import-date-start" value="2025-01-01">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="import-date-end"><i class="far fa-calendar"></i> Конечная дата (фильтр)</label>
+                        <input type="date" id="import-date-end" value="2025-12-31">
+                    </div>
+                    
+                    <div class="file-input-container">
+                        <div class="file-input">
+                            <label class="file-input-label" for="excel-file">
+                                <i class="fas fa-file-excel"></i>
+                                <span>Выберите Excel файл для импорта</span>
+                                <span style="font-size: 0.85rem; color: #666;">(формат: .xlsx, .xls)</span>
+                            </label>
+                            <input type="file" id="excel-file" accept=".xlsx,.xls">
                         </div>
                     </div>
                     
-                    <div class="form-group">
-                        <label for="participants"><i class="fas fa-user-friends"></i> Количество человек (5-15)</label>
-                        <input type="number" id="participants" min="5" max="15" value="10" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="class-status"><i class="fas fa-check-circle"></i> Статус занятия</label>
-                        <select id="class-status" required>
-                            <option value="completed">Проведено</option>
-                            <option value="planned">Запланировано</option>
-                        </select>
-                    </div>
-                    
-                    <div class="actions">
-                        <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Добавить занятие</button>
-                        <button type="button" class="btn btn-warning" id="auto-fill"><i class="fas fa-magic"></i> Автозаполнить с 15.01.2025</button>
-                    </div>
-                </form>
+                    <button class="btn btn-import" id="import-excel"><i class="fas fa-file-import"></i> Импортировать данные</button>
+                </div>
                 
-                <button class="btn btn-export" id="export-excel"><i class="fas fa-file-excel"></i> Выгрузить в Excel</button>
+                <button class="btn btn-export" id="export-excel"><i class="fas fa-file-export"></i> Выгрузить в Excel</button>
                 <button class="btn btn-success" id="clear-data" style="margin-top: 10px; width: 100%;"><i class="fas fa-trash-alt"></i> Очистить все данные</button>
+            </div>
+        </div>
+
+        <!-- Модальное окно предпросмотра импорта -->
+        <div class="modal" id="import-preview-modal">
+            <div class="modal-content">
+                <button class="close-modal" id="close-preview">&times;</button>
+                <h3 class="modal-title"><i class="fas fa-eye"></i> Предпросмотр импорта</h3>
+                
+                <div class="import-summary">
+                    <p><strong>Найдено записей:</strong> <span id="preview-count">0</span></p>
+                    <p><strong>Период импорта:</strong> <span id="preview-period">-</span></p>
+                    <p><strong>Будет затронуто период:</strong> <span id="preview-affected-period">-</span></p>
+                </div>
+                
+                <div class="import-preview">
+                    <table id="preview-table">
+                        <thead>
+                            <tr>
+                                <th>Дата</th>
+                                <th>Название</th>
+                                <th>Участники</th>
+                                <th>Статус</th>
+                            </tr>
+                        </thead>
+                        <tbody id="preview-body">
+                            <!-- Предпросмотр данных будет загружен здесь -->
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="import-option">
+                    <label>
+                        <input type="radio" name="import-mode" value="replace" checked>
+                        <span><strong>Заменить данные</strong> за выбранный период</span>
+                    </label>
+                    <p style="font-size: 0.85rem; margin-left: 25px; color: #666;">
+                        Существующие записи в этом периоде будут удалены и заменены новыми
+                    </p>
+                </div>
+                
+                <div class="import-option">
+                    <label>
+                        <input type="radio" name="import-mode" value="append">
+                        <span><strong>Добавить данные</strong> (без удаления существующих)</span>
+                    </label>
+                    <p style="font-size: 0.85rem; margin-left: 25px; color: #666;">
+                        Новые записи будут добавлены, возможны дубликаты
+                    </p>
+                </div>
+                
+                <div class="modal-actions">
+                    <button class="btn btn-info" id="cancel-import">Отмена</button>
+                    <button class="btn btn-success" id="confirm-import">Подтвердить импорт</button>
+                </div>
             </div>
         </div>
 
@@ -549,6 +830,11 @@
         
         // Данные о занятиях
         let classes = [];
+        
+        // Данные для предпросмотра импорта
+        let importPreviewData = [];
+        let importStartDate = null;
+        let importEndDate = null;
         
         // Названия занятий в русской тематике (для автозаполнения)
         const classTemplates = [
@@ -815,6 +1101,9 @@
             // Сбрасываем форму
             document.getElementById('add-class-form').reset();
             
+            // Устанавливаем сегодняшнюю дату
+            document.getElementById('class-date').value = DateTime.now().toISODate();
+            
             // Показываем сообщение об успехе
             alert('Занятие успешно добавлено!');
             
@@ -882,11 +1171,189 @@
             }
         }
         
+        // Импорт данных из Excel
+        function importFromExcel(file, startDate, endDate, importMode) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                try {
+                    const data = new Uint8Array(e.target.result);
+                    const workbook = XLSX.read(data, { type: 'array' });
+                    
+                    // Получаем первый лист
+                    const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
+                    const jsonData = XLSX.utils.sheet_to_json(firstSheet);
+                    
+                    // Преобразуем данные из Excel в наш формат
+                    const importedClasses = [];
+                    
+                    jsonData.forEach((row, index) => {
+                        // Пытаемся распарсить дату в разных форматах
+                        let dateObj;
+                        if (row['Дата']) {
+                            // Пробуем разные форматы дат
+                            const dateStr = row['Дата'].toString();
+                            dateObj = DateTime.fromFormat(dateStr, 'dd.MM.yyyy') || 
+                                     DateTime.fromFormat(dateStr, 'dd-MM-yyyy') ||
+                                     DateTime.fromFormat(dateStr, 'yyyy-MM-dd') ||
+                                     DateTime.fromISO(dateStr);
+                        }
+                        
+                        if (!dateObj || !dateObj.isValid) {
+                            console.warn(`Не удалось распарсить дату в строке ${index + 1}: ${row['Дата']}`);
+                            return;
+                        }
+                        
+                        // Проверяем, попадает ли дата в выбранный диапазон
+                        if (dateObj < startDate || dateObj > endDate) {
+                            return;
+                        }
+                        
+                        // Получаем статус
+                        let status = 'planned';
+                        if (row['Статус']) {
+                            const statusStr = row['Статус'].toString().toLowerCase();
+                            if (statusStr.includes('проведен') || statusStr.includes('completed')) {
+                                status = 'completed';
+                            }
+                        }
+                        
+                        // Получаем количество участников
+                        let participants = 10;
+                        if (row['Количество участников'] || row['Участники'] || row['Кол-во человек']) {
+                            const partStr = (row['Количество участников'] || row['Участники'] || row['Кол-во человек']).toString();
+                            const partNum = parseInt(partStr);
+                            if (!isNaN(partNum) && partNum >= 5 && partNum <= 15) {
+                                participants = partNum;
+                            }
+                        }
+                        
+                        // Получаем название
+                        const name = row['Название занятия'] || row['Название'] || `Занятие ${index + 1}`;
+                        
+                        importedClasses.push({
+                            id: Date.now() + index,
+                            date: dateObj.toJSDate(),
+                            name: name.toString(),
+                            participants: participants,
+                            status: status,
+                            hours: 2 // По умолчанию 2 часа
+                        });
+                    });
+                    
+                    // Показываем предпросмотр
+                    showImportPreview(importedClasses, startDate, endDate, importMode);
+                    
+                } catch (error) {
+                    console.error('Ошибка при чтении файла:', error);
+                    alert('Ошибка при чтении Excel файла. Проверьте формат файла.');
+                }
+            };
+            
+            reader.onerror = function() {
+                alert('Ошибка при чтении файла.');
+            };
+            
+            reader.readAsArrayBuffer(file);
+        }
+        
+        // Показать предпросмотр импорта
+        function showImportPreview(importedClasses, startDate, endDate, importMode) {
+            importPreviewData = importedClasses;
+            importStartDate = startDate;
+            importEndDate = endDate;
+            
+            // Обновляем информацию в модальном окне
+            document.getElementById('preview-count').textContent = importedClasses.length;
+            document.getElementById('preview-period').textContent = 
+                `${startDate.toFormat('dd.MM.yyyy')} - ${endDate.toFormat('dd.MM.yyyy')}`;
+            
+            // Определяем, какие существующие данные будут затронуты
+            const affectedClasses = classes.filter(cls => {
+                const classDate = DateTime.fromJSDate(cls.date);
+                return classDate >= startDate && classDate <= endDate;
+            });
+            
+            document.getElementById('preview-affected-period').textContent = 
+                `${affectedClasses.length} существующих записей будет затронуто`;
+            
+            // Устанавливаем режим импорта
+            document.querySelector(`input[name="import-mode"][value="${importMode}"]`).checked = true;
+            
+            // Заполняем таблицу предпросмотра
+            const previewBody = document.getElementById('preview-body');
+            previewBody.innerHTML = '';
+            
+            // Показываем только первые 10 записей для предпросмотра
+            const previewItems = importedClasses.slice(0, 10);
+            
+            previewItems.forEach(cls => {
+                const classDate = DateTime.fromJSDate(cls.date);
+                const formattedDate = classDate.toFormat('dd.MM.yyyy');
+                
+                const statusBadge = cls.status === 'completed' 
+                    ? '<span class="badge badge-completed">Проведено</span>' 
+                    : '<span class="badge badge-planned">Запланировано</span>';
+                
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${formattedDate}</td>
+                    <td>${cls.name}</td>
+                    <td>${cls.participants}</td>
+                    <td>${statusBadge}</td>
+                `;
+                previewBody.appendChild(row);
+            });
+            
+            if (importedClasses.length > 10) {
+                const row = document.createElement('tr');
+                row.innerHTML = `<td colspan="4" style="text-align: center; font-style: italic;">... и еще ${importedClasses.length - 10} записей</td>`;
+                previewBody.appendChild(row);
+            }
+            
+            // Показываем модальное окно
+            document.getElementById('import-preview-modal').style.display = 'flex';
+        }
+        
+        // Подтверждение импорта
+        function confirmImport() {
+            const importMode = document.querySelector('input[name="import-mode"]:checked').value;
+            
+            if (importMode === 'replace') {
+                // Удаляем существующие записи в выбранном периоде
+                classes = classes.filter(cls => {
+                    const classDate = DateTime.fromJSDate(cls.date);
+                    return classDate < importStartDate || classDate > importEndDate;
+                });
+            }
+            
+            // Добавляем новые записи
+            classes = [...classes, ...importPreviewData];
+            
+            // Сортируем по дате
+            classes.sort((a, b) => a.date - b.date);
+            
+            // Сохраняем
+            saveToLocalStorage();
+            updateStats();
+            renderClassesTable();
+            
+            // Закрываем модальное окно
+            document.getElementById('import-preview-modal').style.display = 'none';
+            
+            // Показываем сообщение об успехе
+            alert(`Успешно импортировано ${importPreviewData.length} записей.`);
+        }
+        
         // Обработчики событий при загрузке страницы
         document.addEventListener('DOMContentLoaded', function() {
             // Установка сегодняшней даты по умолчанию в поле ввода
             const today = DateTime.now().toISODate();
             document.getElementById('class-date').value = today;
+            
+            // Установка дат по умолчанию для импорта
+            document.getElementById('import-date-start').value = '2025-01-01';
+            document.getElementById('import-date-end').value = '2025-12-31';
             
             // Инициализация журнала
             initJournal();
@@ -932,15 +1399,81 @@
             });
             
             // Кнопка перехода к текущему месяцу
-            const todayBtn = document.createElement('button');
-            todayBtn.className = 'month-btn';
-            todayBtn.innerHTML = '<i class="fas fa-calendar-day"></i> Сегодня';
-            todayBtn.addEventListener('click', function() {
+            document.getElementById('today-btn').addEventListener('click', function() {
                 currentMonth = DateTime.now().startOf('month');
                 renderClassesTable();
             });
             
-            document.querySelector('.month-selector').appendChild(todayBtn);
+            // Обработка переключения вкладок
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    const tabId = this.getAttribute('data-tab');
+                    
+                    // Убираем активный класс у всех вкладок
+                    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                    
+                    // Добавляем активный класс к текущей вкладке
+                    this.classList.add('active');
+                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                });
+            });
+            
+            // Обработка импорта из Excel
+            document.getElementById('import-excel').addEventListener('click', function() {
+                const fileInput = document.getElementById('excel-file');
+                const startDateStr = document.getElementById('import-date-start').value;
+                const endDateStr = document.getElementById('import-date-end').value;
+                
+                if (!fileInput.files || fileInput.files.length === 0) {
+                    alert('Пожалуйста, выберите файл для импорта.');
+                    return;
+                }
+                
+                const file = fileInput.files[0];
+                const startDate = DateTime.fromISO(startDateStr);
+                const endDate = DateTime.fromISO(endDateStr);
+                
+                if (!startDate.isValid || !endDate.isValid) {
+                    alert('Пожалуйста, укажите корректные даты для фильтрации.');
+                    return;
+                }
+                
+                if (startDate > endDate) {
+                    alert('Начальная дата не может быть позже конечной даты.');
+                    return;
+                }
+                
+                // Запускаем импорт с режимом "replace" по умолчанию
+                importFromExcel(file, startDate, endDate, 'replace');
+            });
+            
+            // Обработка подтверждения импорта
+            document.getElementById('confirm-import').addEventListener('click', confirmImport);
+            
+            // Обработка отмены импорта
+            document.getElementById('cancel-import').addEventListener('click', function() {
+                document.getElementById('import-preview-modal').style.display = 'none';
+            });
+            
+            document.getElementById('close-preview').addEventListener('click', function() {
+                document.getElementById('import-preview-modal').style.display = 'none';
+            });
+            
+            // Закрытие модального окна при клике вне его
+            document.getElementById('import-preview-modal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    this.style.display = 'none';
+                }
+            });
+            
+            // Генерация шаблона для импорта при клике на поле ввода файла
+            document.getElementById('excel-file').addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    // Можно добавить здесь дополнительную валидацию файла
+                    console.log('Файл выбран:', this.files[0].name);
+                }
+            });
         });
     </script>
 </body>
