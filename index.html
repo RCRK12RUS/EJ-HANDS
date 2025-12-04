@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Электронный журнал - "Умелые ручки"</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/luxon@3.3.0/build/global/luxon.min.js"></script>
     <style>
@@ -237,6 +236,15 @@
             background-color: #27ae60;
         }
 
+        .btn-warning {
+            background-color: #f39c12;
+            color: white;
+        }
+
+        .btn-warning:hover {
+            background-color: #d68910;
+        }
+
         .btn-export {
             background-color: #2ecc71;
             color: white;
@@ -252,6 +260,7 @@
             display: flex;
             gap: 10px;
             margin-top: 20px;
+            flex-wrap: wrap;
         }
 
         .delete-btn {
@@ -348,6 +357,46 @@
         .legend-planned {
             background-color: #fff3cd;
         }
+
+        .suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .suggestion-tag {
+            background-color: #e8f4fd;
+            border: 1px solid #c3dff9;
+            border-radius: 15px;
+            padding: 5px 12px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .suggestion-tag:hover {
+            background-color: #d4e9fa;
+            transform: translateY(-2px);
+        }
+
+        .highlight {
+            animation: highlight 2s ease-out;
+        }
+
+        @keyframes highlight {
+            0% { background-color: #ffeb3b; }
+            100% { background-color: transparent; }
+        }
+
+        .auto-fill-btn {
+            background-color: #9b59b6;
+            color: white;
+        }
+
+        .auto-fill-btn:hover {
+            background-color: #8e44ad;
+        }
     </style>
 </head>
 <body>
@@ -363,7 +412,7 @@
                     <i class="fas fa-users"></i>
                 </div>
                 <div class="stat-info">
-                    <h3 id="total-participants">10</h3>
+                    <h3 id="total-participants">0</h3>
                     <p>Среднее количество участников</p>
                 </div>
             </div>
@@ -372,7 +421,7 @@
                     <i class="fas fa-clock"></i>
                 </div>
                 <div class="stat-info">
-                    <h3 id="completed-hours">36</h3>
+                    <h3 id="completed-hours">0</h3>
                     <p>Проведено часов из 72</p>
                 </div>
             </div>
@@ -381,7 +430,7 @@
                     <i class="fas fa-calendar-check"></i>
                 </div>
                 <div class="stat-info">
-                    <h3 id="completed-classes">18</h3>
+                    <h3 id="completed-classes">0</h3>
                     <p>Проведено занятий</p>
                 </div>
             </div>
@@ -390,7 +439,7 @@
                     <i class="fas fa-calendar-alt"></i>
                 </div>
                 <div class="stat-info">
-                    <h3 id="remaining-classes">18</h3>
+                    <h3 id="remaining-classes">0</h3>
                     <p>Осталось занятий</p>
                 </div>
             </div>
@@ -449,21 +498,16 @@
                     
                     <div class="form-group">
                         <label for="class-name"><i class="fas fa-pencil-alt"></i> Название мастер-класса</label>
-                        <select id="class-name" required>
-                            <option value="">Выберите тип занятия</option>
-                            <option value="Роспись матрешки">Роспись матрешки</option>
-                            <option value="Лоскутное шитье">Лоскутное шитье</option>
-                            <option value="Гжельская роспись">Гжельская роспись</option>
-                            <option value="Валяние из шерсти">Валяние из шерсти</option>
-                            <option value="Плетение из лозы">Плетение из лозы</option>
-                            <option value="Хохломская роспись">Хохломская роспись</option>
-                            <option value="Изготовление тряпичной куклы">Изготовление тряпичной куклы</option>
-                            <option value="Вышивка бисером">Вышивка бисером</option>
-                            <option value="Резьба по дереву">Резьба по дереву</option>
-                            <option value="Роспись пасхальных яиц">Роспись пасхальных яиц</option>
-                            <option value="custom">Другое (ввести вручную)</option>
-                        </select>
-                        <input type="text" id="custom-class-name" placeholder="Введите название занятия" style="display: none; margin-top: 10px;">
+                        <input type="text" id="class-name" placeholder="Введите название мастер-класса" required>
+                        
+                        <div class="suggestions">
+                            <div class="suggestion-tag" data-name="Изготовление русской куклы-оберега">Кукла-оберег</div>
+                            <div class="suggestion-tag" data-name="Создание пейзажа в технике акварель">Пейзаж акварелью</div>
+                            <div class="suggestion-tag" data-name="Роспись деревянной ложки хохломой">Хохлома</div>
+                            <div class="suggestion-tag" data-name="Изготовление браслета из бисера">Браслет из бисера</div>
+                            <div class="suggestion-tag" data-name="Лепка из глины: народная игрушка">Глиняная игрушка</div>
+                            <div class="suggestion-tag" data-name="Вышивка крестом: русские узоры">Вышивка крестом</div>
+                        </div>
                     </div>
                     
                     <div class="form-group">
@@ -481,11 +525,12 @@
                     
                     <div class="actions">
                         <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Добавить занятие</button>
-                        <button type="button" class="btn btn-success" id="generate-january"><i class="fas fa-calendar-plus"></i> Заполнить январь</button>
+                        <button type="button" class="btn btn-warning" id="auto-fill"><i class="fas fa-magic"></i> Автозаполнить с 15.01.2025</button>
                     </div>
                 </form>
                 
                 <button class="btn btn-export" id="export-excel"><i class="fas fa-file-excel"></i> Выгрузить в Excel</button>
+                <button class="btn btn-success" id="clear-data" style="margin-top: 10px; width: 100%;"><i class="fas fa-trash-alt"></i> Очистить все данные</button>
             </div>
         </div>
 
@@ -505,18 +550,28 @@
         // Данные о занятиях
         let classes = [];
         
-        // Названия занятий в русской тематике
+        // Названия занятий в русской тематике (для автозаполнения)
         const classTemplates = [
+            "Изготовление русской куклы-оберега",
+            "Создание пейзажа в технике акварель",
+            "Роспись деревянной ложки хохломой",
+            "Изготовление браслета из бисера",
+            "Лепка из глины: народная игрушка",
+            "Вышивка крестом: русские узоры",
+            "Плетение корзин из лозы",
+            "Валяние из шерсти: валенки-шептуны",
+            "Роспись пасхальных яиц",
+            "Изготовление тряпичной куклы-мотанки",
+            "Создание открытки в технике скрапбукинг",
+            "Роспись гжельской посуды",
+            "Изготовление подковы на счастье",
+            "Бисероплетение: дерево жизни",
+            "Картина из шерсти: зимний пейзаж",
+            "Изготовление народной куклы-колокольчик",
+            "Декупаж деревянной шкатулки",
+            "Лоскутное шитье: прихватка-цветок",
             "Роспись матрешки",
-            "Лоскутное шитье",
-            "Гжельская роспись",
-            "Валяние из шерсти",
-            "Плетение из лозы",
-            "Хохломская роспись",
-            "Изготовление тряпичной куклы",
-            "Вышивка бисером",
-            "Резьба по дереву",
-            "Роспись пасхальных яиц"
+            "Изготовление ангела из ткани"
         ];
         
         // Инициализация журнала с данными
@@ -531,57 +586,76 @@
                     cls.date = new Date(cls.date);
                 });
             } else {
-                // Генерируем начальные данные за январь 2025
-                generateJanuaryData();
+                // Если данных нет, предлагаем автозаполнить
+                setTimeout(() => {
+                    if (confirm('Журнал пуст. Хотите автоматически заполнить его занятиями с 15 января по 4 декабря 2025 года?')) {
+                        autoFillData();
+                    }
+                }, 500);
             }
             
             updateStats();
             renderClassesTable();
         }
         
-        // Генерация данных за январь 2025
-        function generateJanuaryData() {
+        // Автозаполнение данными с 15.01.2025 по 04.12.2025
+        function autoFillData() {
             classes = [];
             
-            // Январь 2025: среда - первый день месяца
+            // Начальная дата - 15 января 2025
+            let currentDate = DateTime.local(2025, 1, 15);
+            
+            // Конечная дата - 4 декабря 2025 (сегодня)
+            const endDate = DateTime.local(2025, 12, 4);
+            
             // Занятия раз в неделю, кроме субботы и воскресенья
-            // Начнем с первой среды января (1 января - среда)
-            let currentDate = DateTime.local(2025, 1, 1);
+            let classCount = 0;
             
-            // Ищем первый рабочий день (понедельник-пятница)
-            while (currentDate.weekday === 6 || currentDate.weekday === 7) {
-                currentDate = currentDate.plus({ days: 1 });
-            }
-            
-            // Создаем 4 занятия в январе
-            for (let i = 0; i < 4; i++) {
-                const classDate = currentDate.plus({ weeks: i });
-                
+            while (currentDate <= endDate && classCount < 36) { // Максимум 36 занятий (72 часа)
                 // Пропускаем выходные
-                let adjustedDate = classDate;
-                if (adjustedDate.weekday === 6) { // суббота
-                    adjustedDate = adjustedDate.plus({ days: 2 });
-                } else if (adjustedDate.weekday === 7) { // воскресенье
-                    adjustedDate = adjustedDate.plus({ days: 1 });
+                if (currentDate.weekday !== 6 && currentDate.weekday !== 7) {
+                    // Случайное название занятия
+                    const className = classTemplates[Math.floor(Math.random() * classTemplates.length)];
+                    
+                    // Случайное количество участников от 5 до 15
+                    const participants = Math.floor(Math.random() * 11) + 5;
+                    
+                    // Определяем статус: если дата в прошлом относительно сегодня - "проведено", иначе - "запланировано"
+                    const today = DateTime.now();
+                    const status = currentDate <= today ? 'completed' : 'planned';
+                    
+                    classes.push({
+                        id: Date.now() + classCount,
+                        date: currentDate.toJSDate(),
+                        name: className,
+                        participants: participants,
+                        status: status,
+                        hours: 2 // Каждое занятие длится 2 часа
+                    });
+                    
+                    classCount++;
                 }
                 
-                // Случайное название занятия
-                const className = classTemplates[Math.floor(Math.random() * classTemplates.length)];
-                
-                // Случайное количество участников от 5 до 15
-                const participants = Math.floor(Math.random() * 11) + 5;
-                
-                classes.push({
-                    id: Date.now() + i,
-                    date: adjustedDate.toJSDate(),
-                    name: className,
-                    participants: participants,
-                    status: 'completed',
-                    hours: 2 // Каждое занятие длится 2 часа
-                });
+                // Переходим к следующей неделе
+                currentDate = currentDate.plus({ weeks: 1 });
             }
             
             saveToLocalStorage();
+            updateStats();
+            renderClassesTable();
+            
+            // Прокручиваем к текущему месяцу
+            currentMonth = DateTime.now().startOf('month');
+            renderClassesTable();
+            
+            // Анимируем добавление данных
+            document.querySelectorAll('tr').forEach((row, index) => {
+                if (index > 0) {
+                    row.classList.add('highlight');
+                }
+            });
+            
+            alert(`Журнал заполнен! Добавлено ${classCount} занятий с 15 января по 4 декабря 2025 года.`);
         }
         
         // Сохранение в localStorage
@@ -602,6 +676,8 @@
                 const totalParticipants = classes.reduce((sum, cls) => sum + cls.participants, 0);
                 const avgParticipants = Math.round(totalParticipants / classes.length);
                 document.getElementById('total-participants').textContent = avgParticipants;
+            } else {
+                document.getElementById('total-participants').textContent = '0';
             }
             
             // Проведено часов
@@ -615,7 +691,7 @@
             // Осталось занятий (всего 36 занятий по 2 часа = 72 часа)
             const totalClasses = 36;
             const remainingClasses = totalClasses - classes.length;
-            document.getElementById('remaining-classes').textContent = remainingClasses;
+            document.getElementById('remaining-classes').textContent = remainingClasses > 0 ? remainingClasses : 0;
         }
         
         // Отрисовка таблицы занятий
@@ -704,20 +780,15 @@
             event.preventDefault();
             
             const dateInput = document.getElementById('class-date');
-            const nameSelect = document.getElementById('class-name');
-            const customNameInput = document.getElementById('custom-class-name');
+            const nameInput = document.getElementById('class-name');
             const participantsInput = document.getElementById('participants');
             const statusSelect = document.getElementById('class-status');
             
-            let className = nameSelect.value;
+            const className = nameInput.value.trim();
             
-            // Если выбрано "Другое", берем значение из текстового поля
-            if (className === 'custom') {
-                className = customNameInput.value.trim();
-                if (!className) {
-                    alert('Пожалуйста, введите название занятия');
-                    return;
-                }
+            if (!className) {
+                alert('Пожалуйста, введите название занятия');
+                return;
             }
             
             // Проверяем, что дата не в выходной день
@@ -743,14 +814,25 @@
             
             // Сбрасываем форму
             document.getElementById('add-class-form').reset();
-            customNameInput.style.display = 'none';
             
             // Показываем сообщение об успехе
             alert('Занятие успешно добавлено!');
+            
+            // Прокручиваем к добавленной строке
+            const newRow = document.querySelector(`[data-id="${newClass.id}"]`);
+            if (newRow) {
+                newRow.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                newRow.classList.add('highlight');
+            }
         }
         
         // Экспорт в Excel
         function exportToExcel() {
+            if (classes.length === 0) {
+                alert('Нет данных для экспорта. Сначала добавьте занятия.');
+                return;
+            }
+            
             // Подготовка данных для экспорта
             const exportData = classes.map(cls => {
                 const classDate = DateTime.fromJSDate(cls.date);
@@ -775,8 +857,10 @@
                 [''],
                 ['Общее количество часов в год: 72'],
                 ['Проведено часов: ' + classes.filter(cls => cls.status === 'completed').reduce((sum, cls) => sum + cls.hours, 0)],
-                ['Среднее количество участников: ' + Math.round(classes.reduce((sum, cls) => sum + cls.participants, 0) / classes.length)],
+                ['Всего занятий: ' + classes.length],
+                ['Среднее количество участников: ' + (classes.length > 0 ? Math.round(classes.reduce((sum, cls) => sum + cls.participants, 0) / classes.length) : 0)],
                 [''],
+                ['Период: с 15.01.2025 по 04.12.2025'],
                 ['Дата выгрузки: ' + DateTime.now().toFormat('dd.MM.yyyy HH:mm')]
             ];
             
@@ -784,37 +868,57 @@
             XLSX.utils.book_append_sheet(wb, wsInfo, 'Информация');
             
             // Сохранение файла
-            XLSX.writeFile(wb, `Журнал_Умелые_ручки_${DateTime.now().toFormat('yyyy-MM-dd')}.xlsx`);
+            XLSX.writeFile(wb, `Журнал_Умелые_ручки_${DateTime.now().toFormat('yyyy-MM-dd_HH-mm')}.xlsx`);
+        }
+        
+        // Очистка всех данных
+        function clearAllData() {
+            if (confirm('Вы уверены, что хотите удалить все данные из журнала? Это действие нельзя отменить.')) {
+                classes = [];
+                localStorage.removeItem('umelie-ruchki-classes');
+                updateStats();
+                renderClassesTable();
+                alert('Все данные удалены.');
+            }
         }
         
         // Обработчики событий при загрузке страницы
         document.addEventListener('DOMContentLoaded', function() {
+            // Установка сегодняшней даты по умолчанию в поле ввода
+            const today = DateTime.now().toISODate();
+            document.getElementById('class-date').value = today;
+            
             // Инициализация журнала
             initJournal();
             
-            // Установка минимальной даты на сегодня
-            const today = DateTime.now().toISODate();
-            document.getElementById('class-date').min = today;
-            
-            // Обработка выбора типа занятия
-            document.getElementById('class-name').addEventListener('change', function() {
-                const customInput = document.getElementById('custom-class-name');
-                customInput.style.display = this.value === 'custom' ? 'block' : 'none';
+            // Обработка кликов по подсказкам
+            document.querySelectorAll('.suggestion-tag').forEach(tag => {
+                tag.addEventListener('click', function() {
+                    const className = this.getAttribute('data-name');
+                    document.getElementById('class-name').value = className;
+                    document.getElementById('class-name').focus();
+                });
             });
             
             // Обработка добавления занятия
             document.getElementById('add-class-form').addEventListener('submit', addClass);
             
-            // Обработка кнопки "Заполнить январь"
-            document.getElementById('generate-january').addEventListener('click', function() {
-                generateJanuaryData();
-                updateStats();
-                renderClassesTable();
-                alert('Данные за январь 2025 успешно сгенерированы!');
+            // Обработка кнопки автозаполнения
+            document.getElementById('auto-fill').addEventListener('click', function() {
+                if (classes.length > 0) {
+                    if (confirm('В журнале уже есть данные. Автозаполнение добавит новые занятия. Продолжить?')) {
+                        autoFillData();
+                    }
+                } else {
+                    autoFillData();
+                }
             });
             
             // Обработка экспорта в Excel
             document.getElementById('export-excel').addEventListener('click', exportToExcel);
+            
+            // Обработка очистки данных
+            document.getElementById('clear-data').addEventListener('click', clearAllData);
             
             // Обработка переключения месяцев
             document.getElementById('prev-month').addEventListener('click', function() {
@@ -826,6 +930,17 @@
                 currentMonth = currentMonth.plus({ months: 1 });
                 renderClassesTable();
             });
+            
+            // Кнопка перехода к текущему месяцу
+            const todayBtn = document.createElement('button');
+            todayBtn.className = 'month-btn';
+            todayBtn.innerHTML = '<i class="fas fa-calendar-day"></i> Сегодня';
+            todayBtn.addEventListener('click', function() {
+                currentMonth = DateTime.now().startOf('month');
+                renderClassesTable();
+            });
+            
+            document.querySelector('.month-selector').appendChild(todayBtn);
         });
     </script>
 </body>
