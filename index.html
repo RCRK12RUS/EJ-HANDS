@@ -19,11 +19,18 @@
         h1 { font-size: 2.5rem; margin-bottom: 10px; display: flex; align-items: center; justify-content: center; gap: 15px; }
         h1 i { font-size: 2.2rem; }
         .subtitle { font-size: 1.2rem; opacity: 0.9; }
-        .year-badge {
-            display: inline-block; background-color: rgba(255,255,255,0.2);
-            padding: 5px 20px; border-radius: 20px; margin-top: 10px;
-            font-size: 1rem; font-weight: 600;
+        .year-selector {
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+            background: rgba(255,255,255,0.15); padding: 10px 20px;
+            border-radius: 25px; margin-top: 15px; flex-wrap: wrap;
         }
+        .year-selector label { color: white; margin: 0; font-weight: 600; font-size: 1rem; }
+        .year-selector select {
+            padding: 8px 18px; border-radius: 20px; border: 2px solid rgba(255,255,255,0.4);
+            background-color: white; font-size: 1rem; font-weight: 600; color: #1e3a5f;
+            cursor: pointer; width: auto; min-width: 110px;
+        }
+        .year-selector select:focus { border-color: white; box-shadow: 0 0 0 3px rgba(255,255,255,0.3); outline: none; }
         .stats-container {
             display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px; margin-bottom: 30px;
@@ -37,7 +44,7 @@
         .stat-icon {
             width: 60px; height: 60px; border-radius: 50%;
             display: flex; align-items: center; justify-content: center;
-            font-size: 1.8rem; color: white;
+            font-size: 1.8rem; color: white; flex-shrink: 0;
         }
         .stat-1 { background-color: #4a6fa5; }
         .stat-2 { background-color: #e67e22; }
@@ -51,9 +58,15 @@
         .section-title {
             font-size: 1.5rem; margin-bottom: 20px; color: #1e3a5f;
             padding-bottom: 10px; border-bottom: 2px solid #f0f0f0;
-            display: flex; align-items: center; gap: 10px;
+            display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
         }
         .section-title i { color: #4a6fa5; }
+        .year-info-badge {
+            display: inline-flex; align-items: center; gap: 5px;
+            background-color: #e8f4fd; color: #1e3a5f;
+            padding: 3px 10px; border-radius: 12px;
+            font-size: 0.85rem; font-weight: 600; margin-left: auto;
+        }
         table { width: 100%; border-collapse: collapse; margin-top: 10px; }
         th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #eee; }
         th { background-color: #f8f9fa; font-weight: 600; color: #1e3a5f; }
@@ -98,22 +111,19 @@
         }
         .delete-btn:hover { background-color: #c0392b; }
         .empty-message { text-align: center; padding: 30px; color: #777; font-style: italic; }
-        .total-hours {
-            text-align: right; font-weight: 600; margin-top: 15px;
-            color: #1e3a5f; font-size: 1.1rem;
-        }
+        .total-hours { text-align: right; font-weight: 600; margin-top: 15px; color: #1e3a5f; font-size: 1.1rem; }
         footer {
             text-align: center; padding: 20px; margin-top: 40px;
             color: #666; font-size: 0.9rem; border-top: 1px solid #eee;
         }
-        .month-selector { display: flex; justify-content: center; gap: 15px; margin-bottom: 20px; align-items: center; flex-wrap: wrap; }
+        .month-selector { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; align-items: center; flex-wrap: wrap; }
         .month-btn {
             background-color: #f0f0f0; border: none; border-radius: 5px;
             padding: 8px 15px; cursor: pointer; font-weight: 600; transition: background-color 0.3s;
         }
         .month-btn:hover { background-color: #e0e0e0; }
         .current-month { font-weight: 600; color: #1e3a5f; min-width: 150px; text-align: center; }
-        .legend { display: flex; gap: 15px; margin-top: 15px; justify-content: center; }
+        .legend { display: flex; gap: 15px; margin-top: 15px; justify-content: center; flex-wrap: wrap; }
         .legend-item { display: flex; align-items: center; gap: 5px; font-size: 0.85rem; }
         .legend-color { width: 15px; height: 15px; border-radius: 3px; }
         .legend-completed { background-color: #d4edda; }
@@ -161,58 +171,15 @@
             padding: 15px; margin-bottom: 20px; border-radius: 4px;
         }
         .tabs { display: flex; border-bottom: 1px solid #ddd; margin-bottom: 20px; }
-        .tab {
-            padding: 10px 20px; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.3s;
-        }
+        .tab { padding: 10px 20px; cursor: pointer; border-bottom: 3px solid transparent; transition: all 0.3s; }
         .tab.active { border-bottom-color: #4a6fa5; color: #4a6fa5; font-weight: 600; }
         .tab-content { display: none; }
         .tab-content.active { display: block; }
-        
-        /* Новые стили для выбора года */
-        .year-selector {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(255,255,255,0.15);
-            padding: 8px 15px;
-            border-radius: 25px;
-            margin-top: 15px;
-        }
-        .year-selector label {
-            color: white;
-            margin: 0;
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
-        .year-selector select {
-            padding: 6px 15px;
-            border-radius: 20px;
-            border: 2px solid rgba(255,255,255,0.4);
-            background-color: white;
-            font-size: 1rem;
-            font-weight: 600;
-            color: #1e3a5f;
-            cursor: pointer;
-            width: auto;
-            min-width: 100px;
-        }
-        .year-selector select:focus {
-            border-color: white;
-            box-shadow: 0 0 0 3px rgba(255,255,255,0.3);
-            outline: none;
-        }
-        
-        .year-info-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 5px;
-            background-color: #e8f4fd;
-            color: #1e3a5f;
-            padding: 3px 10px;
-            border-radius: 12px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            margin-left: 10px;
+        .info-badge-inline {
+            display: inline-flex; align-items: center; gap: 5px;
+            background-color: #e8f4fd; color: #1e3a5f;
+            padding: 8px 15px; border-radius: 20px;
+            font-size: 0.9rem; margin-bottom: 15px;
         }
     </style>
 </head>
@@ -223,44 +190,34 @@
             <p class="subtitle">Коллектив декоративно-прикладного творчества "Умелые ручки"</p>
             <div class="year-selector">
                 <label for="global-year"><i class="fas fa-calendar-check"></i> Учебный год:</label>
-                <select id="global-year">
-                    <!-- Опции будут добавлены через JS -->
-                </select>
+                <select id="global-year"></select>
             </div>
         </header>
 
         <div class="stats-container">
             <div class="stat-card">
-                <div class="stat-icon stat-1">
-                    <i class="fas fa-users"></i>
-                </div>
+                <div class="stat-icon stat-1"><i class="fas fa-users"></i></div>
                 <div class="stat-info">
                     <h3 id="total-participants">0</h3>
                     <p>Среднее количество участников</p>
                 </div>
             </div>
             <div class="stat-card">
-                <div class="stat-icon stat-2">
-                    <i class="fas fa-clock"></i>
-                </div>
+                <div class="stat-icon stat-2"><i class="fas fa-clock"></i></div>
                 <div class="stat-info">
                     <h3 id="completed-hours">0</h3>
                     <p>Проведено часов из 72</p>
                 </div>
             </div>
             <div class="stat-card">
-                <div class="stat-icon stat-3">
-                    <i class="fas fa-calendar-check"></i>
-                </div>
+                <div class="stat-icon stat-3"><i class="fas fa-calendar-check"></i></div>
                 <div class="stat-info">
                     <h3 id="completed-classes">0</h3>
                     <p>Проведено занятий</p>
                 </div>
             </div>
             <div class="stat-card">
-                <div class="stat-icon stat-4">
-                    <i class="fas fa-calendar-alt"></i>
-                </div>
+                <div class="stat-icon stat-4"><i class="fas fa-calendar-alt"></i></div>
                 <div class="stat-info">
                     <h3 id="remaining-classes">0</h3>
                     <p>Осталось занятий</p>
@@ -288,14 +245,12 @@
                             <tr>
                                 <th>Дата</th>
                                 <th>Название занятия</th>
-                                <th>Кол-во человек</th>
+                                <th>Кол-во</th>
                                 <th>Статус</th>
                                 <th>Действия</th>
                             </tr>
                         </thead>
-                        <tbody id="classes-body">
-                            <!-- Занятия будут загружены через JavaScript -->
-                        </tbody>
+                        <tbody id="classes-body"></tbody>
                     </table>
                 </div>
                 
@@ -332,7 +287,6 @@
                         <div class="form-group">
                             <label for="class-name"><i class="fas fa-pencil-alt"></i> Название мастер-класса</label>
                             <input type="text" id="class-name" placeholder="Введите название мастер-класса" required>
-                            
                             <div class="suggestions">
                                 <div class="suggestion-tag" data-name="Изготовление русской куклы-оберега">Кукла-оберег</div>
                                 <div class="suggestion-tag" data-name="Создание пейзажа в технике акварель">Пейзаж акварелью</div>
@@ -358,11 +312,18 @@
                         
                         <div class="actions">
                             <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Добавить занятие</button>
-                            <button type="button" class="btn btn-warning" id="auto-fill">
-                                <i class="fas fa-magic"></i> Заполнить год <span id="auto-fill-year">2025</span>
-                            </button>
                         </div>
                     </form>
+                    
+                    <div style="margin-top: 25px; padding-top: 20px; border-top: 2px dashed #eee;">
+                        <div class="info-badge-inline">
+                            <i class="fas fa-info-circle"></i>
+                            Период: январь–май и сентябрь–декабрь. 2–3 занятия в неделю. Только будни. Праздники РФ исключены. Итого 36 занятий = 72 часа.
+                        </div>
+                        <button type="button" class="btn btn-warning" id="auto-fill" style="width: 100%;">
+                            <i class="fas fa-magic"></i> Автозаполнить <span id="auto-fill-year">2025</span> год
+                        </button>
+                    </div>
                 </div>
                 
                 <div class="tab-content" id="import-tab">
@@ -399,58 +360,41 @@
                 </div>
                 
                 <button class="btn btn-export" id="export-excel"><i class="fas fa-file-export"></i> Выгрузить в Excel</button>
-                <button class="btn btn-danger" id="clear-data" style="margin-top: 10px; width: 100%;"><i class="fas fa-trash-alt"></i> Очистить все данные</button>
+                <button class="btn btn-danger" id="clear-data" style="margin-top: 10px; width: 100%;">
+                    <i class="fas fa-trash-alt"></i> Очистить все данные
+                </button>
             </div>
         </div>
 
-        <!-- Модальное окно предпросмотра импорта -->
         <div class="modal" id="import-preview-modal">
             <div class="modal-content">
                 <button class="close-modal" id="close-preview">&times;</button>
                 <h3 class="modal-title"><i class="fas fa-eye"></i> Предпросмотр импорта</h3>
-                
                 <div class="import-summary">
                     <p><strong>Найдено записей:</strong> <span id="preview-count">0</span></p>
                     <p><strong>Период импорта:</strong> <span id="preview-period">-</span></p>
-                    <p><strong>Будет затронуто период:</strong> <span id="preview-affected-period">-</span></p>
+                    <p><strong>Будет затронуто:</strong> <span id="preview-affected-period">-</span></p>
                 </div>
-                
                 <div class="import-preview">
-                    <table id="preview-table">
+                    <table>
                         <thead>
-                            <tr>
-                                <th>Дата</th>
-                                <th>Название</th>
-                                <th>Участники</th>
-                                <th>Статус</th>
-                            </tr>
+                            <tr><th>Дата</th><th>Название</th><th>Участники</th><th>Статус</th></tr>
                         </thead>
-                        <tbody id="preview-body">
-                            <!-- Предпросмотр данных будет загружен здесь -->
-                        </tbody>
+                        <tbody id="preview-body"></tbody>
                     </table>
                 </div>
-                
                 <div class="import-option">
                     <label>
                         <input type="radio" name="import-mode" value="replace" checked>
                         <span><strong>Заменить данные</strong> за выбранный период</span>
                     </label>
-                    <p style="font-size: 0.85rem; margin-left: 25px; color: #666;">
-                        Существующие записи в этом периоде будут удалены и заменены новыми
-                    </p>
                 </div>
-                
                 <div class="import-option">
                     <label>
                         <input type="radio" name="import-mode" value="append">
                         <span><strong>Добавить данные</strong> (без удаления существующих)</span>
                     </label>
-                    <p style="font-size: 0.85rem; margin-left: 25px; color: #666;">
-                        Новые записи будут добавлены, возможны дубликаты
-                    </p>
                 </div>
-                
                 <div class="modal-actions">
                     <button class="btn btn-info" id="cancel-import">Отмена</button>
                     <button class="btn btn-success" id="confirm-import">Подтвердить импорт</button>
@@ -465,22 +409,15 @@
     </div>
 
     <script>
-        // Инициализация DateTime из Luxon
         const DateTime = luxon.DateTime;
         
-        // Текущий год и месяц для отображения
         let currentYear = DateTime.now().year;
         let currentMonth = DateTime.local(currentYear, 1, 1);
-        
-        // Данные о занятиях
         let classes = [];
-        
-        // Данные для предпросмотра импорта
         let importPreviewData = [];
         let importStartDate = null;
         let importEndDate = null;
         
-        // Названия занятий в русской тематике (для автозаполнения)
         const classTemplates = [
             "Изготовление русской куклы-оберега",
             "Создание пейзажа в технике акварель",
@@ -501,214 +438,278 @@
             "Декупаж деревянной шкатулки",
             "Лоскутное шитье: прихватка-цветок",
             "Роспись матрешки",
-            "Изготовление ангела из ткани"
+            "Изготовление ангела из ткани",
+            "Плетение фенечек из ниток",
+            "Изготовление новогодней игрушки",
+            "Роспись разделочной доски городецкой росписью"
         ];
         
-        // Диапазон доступных лет (от 2025 до текущего года + 3)
+        // Праздничные дни РФ (месяц-день) — стабильные, из года в год
+        const FIXED_HOLIDAYS = [
+            '01-01', '01-02', '01-03', '01-04', '01-05', '01-06', '01-07', '01-08', // новогодние
+            '02-23', // День защитника Отечества
+            '03-08', // 8 марта
+            '05-01', // Праздник Весны и Труда
+            '05-09', // День Победы
+            '06-12', // День России
+            '11-04', // День народного единства
+            '12-31'  // последний день года (по ТК продлевается)
+        ];
+        
+        // Проверка праздника (только фиксированные даты — переносы сложно учесть точно)
+        function isHoliday(date) {
+            const mmdd = date.toFormat('MM-dd');
+            return FIXED_HOLIDAYS.includes(mmdd);
+        }
+        
+        // Проверка, что дата — рабочий будний день и не праздник
+        function isWorkingDay(date) {
+            return date.weekday !== 6 && date.weekday !== 7 && !isHoliday(date);
+        }
+        
         const minYear = 2025;
         const maxYear = DateTime.now().year + 3;
         
-        // Инициализация выпадающего списка годов
         function initYearSelector() {
             const yearSelect = document.getElementById('global-year');
             yearSelect.innerHTML = '';
-            
             for (let year = minYear; year <= maxYear; year++) {
                 const option = document.createElement('option');
                 option.value = year;
                 option.textContent = year;
-                if (year === currentYear) {
-                    option.selected = true;
-                }
+                if (year === currentYear) option.selected = true;
                 yearSelect.appendChild(option);
             }
-            
-            // Обновляем бейдж и кнопку автозаполнения
             updateYearIndicators();
         }
         
-        // Обновление индикаторов года
         function updateYearIndicators() {
             document.getElementById('current-year-badge').textContent = currentYear;
             document.getElementById('auto-fill-year').textContent = currentYear;
             document.getElementById('footer-year').textContent = currentYear;
         }
         
-        // Инициализация журнала с данными
         function initJournal() {
-            // Проверяем, есть ли данные в localStorage
             const savedClasses = localStorage.getItem('umelie-ruchki-classes');
-            
             if (savedClasses) {
                 classes = JSON.parse(savedClasses);
-                // Преобразуем строки дат обратно в объекты Date
-                classes.forEach(cls => {
-                    cls.date = new Date(cls.date);
-                });
+                classes.forEach(cls => { cls.date = new Date(cls.date); });
             }
-            
-            // Устанавливаем текущий месяц (январь выбранного года)
             currentMonth = DateTime.local(currentYear, 1, 1);
-            
-            // Обновляем даты для фильтра импорта
             document.getElementById('import-date-start').value = `${currentYear}-01-01`;
             document.getElementById('import-date-end').value = `${currentYear}-12-31`;
-            
             updateStats();
             renderClassesTable();
         }
         
-        // Автозаполнение данными за выбранный год (раз в неделю, кроме выходных)
+        function saveToLocalStorage() {
+            const classesToSave = classes.map(cls => ({ ...cls, date: cls.date.toISOString() }));
+            localStorage.setItem('umelie-ruchki-classes', JSON.stringify(classesToSave));
+        }
+        
+        // ===== АВТОЗАПОЛНЕНИЕ =====
+        // Генерирует 36 занятий (72 часа) с января по май и с сентября по декабрь
+        // 2-3 раза в неделю, только будни, кроме праздников
         function autoFillData(year) {
-            // Спрашиваем подтверждение, если есть данные за этот год
             const existingForYear = classes.filter(cls => {
-                const classDate = DateTime.fromJSDate(cls.date);
-                return classDate.year === year;
+                const d = DateTime.fromJSDate(cls.date);
+                return d.year === year;
             });
             
             if (existingForYear.length > 0) {
                 if (!confirm(`За ${year} год уже есть ${existingForYear.length} занятий. Заменить их новыми?`)) {
                     return;
                 }
-                // Удаляем существующие записи за выбранный год
                 classes = classes.filter(cls => {
-                    const classDate = DateTime.fromJSDate(cls.date);
-                    return classDate.year !== year;
+                    const d = DateTime.fromJSDate(cls.date);
+                    return d.year !== year;
                 });
             }
             
-            // Начальная дата - первая среда января выбранного года
-            let startDate = DateTime.local(year, 1, 1);
+            // Собираем ВСЕ доступные будние непраздничные дни:
+            //  - Январь–Май (с 9 января — после новогодних каникул)
+            //  - Сентябрь–Декабрь (по 30 декабря)
+            const availableDays = [];
             
-            // Ищем первый рабочий день (начиная с 15 января, если год текущий или будущий)
-            // Для прошлых лет начинаем с 15 января
-            if (year > DateTime.now().year || (year === DateTime.now().year && DateTime.now().month < 1)) {
-                startDate = DateTime.local(year, 1, 15);
-            } else if (year === DateTime.now().year) {
-                // Для текущего года начинаем с текущей недели
-                startDate = DateTime.now().startOf('week');
-                if (startDate.month === 12) {
-                    startDate = DateTime.local(year, 1, 15);
-                }
-            } else {
-                startDate = DateTime.local(year, 1, 15);
+            // Период 1: 09 января – 31 мая
+            let d = DateTime.local(year, 1, 9);
+            const end1 = DateTime.local(year, 5, 31);
+            while (d <= end1) {
+                if (isWorkingDay(d)) availableDays.push(d);
+                d = d.plus({ days: 1 });
             }
             
-            // Если стартовая дата - выходной, сдвигаем на понедельник
-            while (startDate.weekday === 6 || startDate.weekday === 7) {
-                startDate = startDate.plus({ days: 1 });
+            // Период 2: 01 сентября – 30 декабря
+            d = DateTime.local(year, 9, 1);
+            const end2 = DateTime.local(year, 12, 30);
+            while (d <= end2) {
+                if (isWorkingDay(d)) availableDays.push(d);
+                d = d.plus({ days: 1 });
             }
             
-            // Конечная дата - 4 декабря выбранного года (или сегодня для текущего)
-            const endDate = year === DateTime.now().year 
-                ? DateTime.now() 
-                : DateTime.local(year, 12, 4);
+            const TARGET_CLASSES = 36; // 36 × 2 часа = 72 часа
             
-            // Занятия раз в неделю, кроме субботы и воскресенья
-            let classCount = 0;
-            let currentDate = startDate;
-            const usedTemplates = [];
+            if (availableDays.length < TARGET_CLASSES) {
+                alert(`Недостаточно рабочих дней в ${year} году для ${TARGET_CLASSES} занятий.`);
+                return;
+            }
             
-            while (currentDate <= endDate && classCount < 36) {
-                // Пропускаем выходные
-                if (currentDate.weekday !== 6 && currentDate.weekday !== 7) {
-                    // Выбираем название занятия (стараемся не повторяться подряд)
-                    let className;
-                    let attempts = 0;
-                    do {
-                        className = classTemplates[Math.floor(Math.random() * classTemplates.length)];
-                        attempts++;
-                    } while (usedTemplates.includes(className) && attempts < 20);
-                    
-                    usedTemplates.push(className);
-                    if (usedTemplates.length > 5) usedTemplates.shift();
-                    
-                    // Случайное количество участников от 5 до 15
-                    const participants = Math.floor(Math.random() * 11) + 5;
-                    
-                    // Определяем статус: если дата в прошлом - "проведено", иначе - "запланировано"
-                    const today = DateTime.now();
-                    const status = currentDate <= today ? 'completed' : 'planned';
-                    
-                    classes.push({
-                        id: Date.now() + classCount + Math.random(),
-                        date: currentDate.toJSDate(),
-                        name: className,
-                        participants: participants,
-                        status: status,
-                        hours: 2
-                    });
-                    
-                    classCount++;
+            // Распределяем занятия: 2–3 раза в неделю.
+            // Стратегия: идём по доступным дням неделями, в каждой неделе выбираем
+            // 2 или 3 дня (случайно, но с приоритетом 2 дня — чтобы растянуть на весь период).
+            // Считаем количество недель в двух периодах:
+            //  - Период 1: ~20 недель, Период 2: ~17 недель => ~37 недель
+            //  - 36 занятий при 2-3 в неделю — в среднем ~1 занятие на неделю, но пользователь просил 2-3.
+            // Поскольку 72 часа / 2 часа = 36 занятий — распределяем по 2-3 в неделю на всём периоде.
+            
+            // Группируем доступные дни по ISO-неделям
+            const weekMap = new Map();
+            availableDays.forEach(day => {
+                const key = `${day.weekYear}-W${day.weekNumber}`;
+                if (!weekMap.has(key)) weekMap.set(key, []);
+                weekMap.get(key).push(day);
+            });
+            
+            // Перемешиваем недели, чтобы распределить занятия неравномерно
+            // (но при этом сохранить хронологию — потом отсортируем)
+            const weekKeys = Array.from(weekMap.keys());
+            
+            // Проходим по неделям по порядку (хронологически) и в каждой берём 2 или 3 дня
+            // Чтобы уложиться в 36 занятий:
+            const totalWeeks = weekKeys.length;
+            // 36 = 2*W + extra, где W — число недель; extra — сколько недель с 3 занятиями
+            // Если W >= 18: 2 занятия в неделю достаточно (18*2=36), остальные недели можно пропускать
+            // Но пользователь просит "2-3 раза в неделю" — значит почти каждая неделя имеет занятия.
+            // Реализуем: пройдём по неделям, будем набирать 2-3 занятия пока не наберём 36.
+            
+            // Рассчитываем сколько занятий брать в каждой неделе, чтобы вышло ровно 36
+            const weeksToUse = Math.min(totalWeeks, Math.ceil(TARGET_CLASSES / 2));
+            
+            // Определяем: в скольких неделях будет 3 занятия, в скольких — 2
+            // 2*x + 3*y = 36, x+y = weeksToUse
+            // => 2*weeksToUse + y = 36 => y = 36 - 2*weeksToUse
+            let weeksWith3 = 36 - 2 * weeksToUse;
+            let weeksWith2 = weeksToUse - weeksWith3;
+            
+            // Если weeksWith3 < 0, то уменьшаем количество недель
+            if (weeksWith3 < 0) {
+                // Значит нужно меньше недель
+                // Подбираем минимальное количество недель, где 36 = 2x + 3y, x+y = N
+                // N = 12: y=12, x=0 — только по 3
+                // N = 13: y=10, x=3
+                // N = 14: y=8, x=6
+                // N = 15: y=6, x=9
+                // N = 16: y=4, x=12
+                // N = 17: y=2, x=15
+                // N = 18: y=0, x=18 — только по 2
+                // Нам удобнее взять "почти каждую неделю" — возьмём 16-18 недель
+                const weeksFor36 = Math.ceil(36 / 3); // минимум недель = 12
+                // Выбираем, например, чтобы было разнообразие: 2 или 3 в неделю
+                // Возьмём все доступные недели, но распределим не в каждой
+                // Проще: пройти по неделям и случайно решать 2 или 3, пока не наберём 36
+            }
+            
+            // Простой и надёжный подход: идём по неделям, в каждой неделе
+            // выбираем случайно 2 или 3 дня, пока не наберём ровно 36 занятий.
+            const selectedDays = [];
+            
+            for (let i = 0; i < weekKeys.length && selectedDays.length < TARGET_CLASSES; i++) {
+                const weekDays = weekMap.get(weekKeys[i]).slice(); // копия
+                // Перемешиваем дни внутри недели
+                for (let j = weekDays.length - 1; j > 0; j--) {
+                    const k = Math.floor(Math.random() * (j + 1));
+                    [weekDays[j], weekDays[k]] = [weekDays[k], weekDays[j]];
                 }
                 
-                // Переходим к следующей неделе
-                currentDate = currentDate.plus({ weeks: 1 });
+                // Сколько взять в этой неделе: 2 или 3 (но не больше, чем есть дней)
+                let count = Math.random() < 0.5 ? 2 : 3;
+                count = Math.min(count, weekDays.length);
+                
+                // Не превышаем лимит
+                const remaining = TARGET_CLASSES - selectedDays.length;
+                count = Math.min(count, remaining);
+                
+                // Берём нужное количество дней и сортируем их по хронологии
+                const chosen = weekDays.slice(0, count).sort((a, b) => a - b);
+                selectedDays.push(...chosen);
             }
             
-            // Сортируем по дате
-            classes.sort((a, b) => a.date - b.date);
+            // Если всё ещё меньше 36 — добираем оставшиеся дни (например, если в неделе только 1 день)
+            if (selectedDays.length < TARGET_CLASSES) {
+                for (const day of availableDays) {
+                    if (selectedDays.length >= TARGET_CLASSES) break;
+                    if (!selectedDays.some(sd => sd.toISODate() === day.toISODate())) {
+                        selectedDays.push(day);
+                    }
+                }
+            }
             
+            // Сортируем финальный набор
+            selectedDays.sort((a, b) => a - b);
+            
+            // Создаём занятия
+            const usedTemplates = [];
+            selectedDays.forEach((day, idx) => {
+                // Выбираем название, избегая повторов подряд
+                let className;
+                let attempts = 0;
+                do {
+                    className = classTemplates[Math.floor(Math.random() * classTemplates.length)];
+                    attempts++;
+                } while (usedTemplates.includes(className) && attempts < 30);
+                usedTemplates.push(className);
+                if (usedTemplates.length > 8) usedTemplates.shift();
+                
+                const participants = Math.floor(Math.random() * 11) + 5; // 5–15
+                const today = DateTime.now();
+                const status = day <= today ? 'completed' : 'planned';
+                
+                classes.push({
+                    id: Date.now() + idx + Math.random(),
+                    date: day.toJSDate(),
+                    name: className,
+                    participants: participants,
+                    status: status,
+                    hours: 2
+                });
+            });
+            
+            classes.sort((a, b) => a.date - b.date);
             saveToLocalStorage();
             updateStats();
-            
-            // Переходим к январю выбранного года
             currentMonth = DateTime.local(year, 1, 1);
             renderClassesTable();
             
-            // Анимируем добавление данных
             setTimeout(() => {
-                document.querySelectorAll('tr').forEach((row, index) => {
-                    if (index > 0) {
-                        row.classList.add('highlight');
-                    }
+                document.querySelectorAll('#classes-body tr').forEach((row) => {
+                    row.classList.add('highlight');
                 });
             }, 100);
             
-            alert(`Журнал за ${year} год заполнен! Добавлено ${classCount} занятий.`);
+            alert(`Журнал за ${year} год заполнен!\nДобавлено ${selectedDays.length} занятий = ${selectedDays.length * 2} часов.`);
         }
         
-        // Сохранение в localStorage
-        function saveToLocalStorage() {
-            const classesToSave = classes.map(cls => ({
-                ...cls,
-                date: cls.date.toISOString()
-            }));
-            localStorage.setItem('umelie-ruchki-classes', JSON.stringify(classesToSave));
-        }
-        
-        // Обновление статистики
         function updateStats() {
-            // Фильтруем данные за выбранный год
             const yearClasses = classes.filter(cls => {
-                const classDate = DateTime.fromJSDate(cls.date);
-                return classDate.year === currentYear;
+                const d = DateTime.fromJSDate(cls.date);
+                return d.year === currentYear;
             });
             
-            // Среднее количество участников
             if (yearClasses.length > 0) {
-                const totalParticipants = yearClasses.reduce((sum, cls) => sum + cls.participants, 0);
-                const avgParticipants = Math.round(totalParticipants / yearClasses.length);
-                document.getElementById('total-participants').textContent = avgParticipants;
+                const total = yearClasses.reduce((sum, cls) => sum + cls.participants, 0);
+                document.getElementById('total-participants').textContent = Math.round(total / yearClasses.length);
             } else {
                 document.getElementById('total-participants').textContent = '0';
             }
             
-            // Проведено часов
             const completedClasses = yearClasses.filter(cls => cls.status === 'completed');
-            const completedHours = completedClasses.reduce((sum, cls) => sum + cls.hours, 0);
-            document.getElementById('completed-hours').textContent = completedHours;
-            
-            // Проведено занятий
+            document.getElementById('completed-hours').textContent = completedClasses.reduce((s, c) => s + c.hours, 0);
             document.getElementById('completed-classes').textContent = completedClasses.length;
             
-            // Осталось занятий
-            const totalClasses = 36;
-            const remainingClasses = totalClasses - yearClasses.length;
-            document.getElementById('remaining-classes').textContent = remainingClasses > 0 ? remainingClasses : 0;
+            const remaining = 36 - yearClasses.length;
+            document.getElementById('remaining-classes').textContent = remaining > 0 ? remaining : 0;
         }
         
-        // Отрисовка таблицы занятий
         function renderClassesTable() {
             const tbody = document.getElementById('classes-body');
             tbody.innerHTML = '';
@@ -717,9 +718,11 @@
             const monthEnd = currentMonth.endOf('month');
             
             const monthClasses = classes.filter(cls => {
-                const classDate = DateTime.fromJSDate(cls.date);
-                return classDate >= monthStart && classDate <= monthEnd;
+                const d = DateTime.fromJSDate(cls.date);
+                return d >= monthStart && d <= monthEnd;
             });
+            
+            document.getElementById('current-month').textContent = currentMonth.setLocale('ru').toFormat('LLLL yyyy');
             
             if (monthClasses.length === 0) {
                 tbody.innerHTML = `
@@ -728,41 +731,33 @@
                             <i class="far fa-calendar-times fa-2x" style="margin-bottom: 10px;"></i><br>
                             На этот месяц занятия не запланированы
                         </td>
-                    </tr>
-                `;
+                    </tr>`;
                 document.getElementById('month-hours').textContent = '0';
-                document.getElementById('current-month').textContent = currentMonth.setLocale('ru').toFormat('LLLL yyyy');
                 return;
             }
             
             monthClasses.sort((a, b) => a.date - b.date);
-            
             let monthHours = 0;
             
             monthClasses.forEach(cls => {
-                const classDate = DateTime.fromJSDate(cls.date);
-                const formattedDate = classDate.toFormat('dd.MM.yyyy');
-                const dayOfWeek = classDate.setLocale('ru').toFormat('EEEE');
-                
-                const statusBadge = cls.status === 'completed' 
-                    ? '<span class="badge badge-completed">Проведено</span>' 
+                const d = DateTime.fromJSDate(cls.date);
+                const statusBadge = cls.status === 'completed'
+                    ? '<span class="badge badge-completed">Проведено</span>'
                     : '<span class="badge badge-planned">Запланировано</span>';
                 
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${formattedDate}<br><small>${dayOfWeek}</small></td>
+                    <td>${d.toFormat('dd.MM.yyyy')}<br><small>${d.setLocale('ru').toFormat('EEEE')}</small></td>
                     <td>${cls.name}</td>
                     <td>${cls.participants} чел.</td>
                     <td>${statusBadge}</td>
-                    <td><button class="delete-btn" data-id="${cls.id}"><i class="fas fa-trash"></i> Удалить</button></td>
+                    <td><button class="delete-btn" data-id="${cls.id}"><i class="fas fa-trash"></i></button></td>
                 `;
-                
                 tbody.appendChild(row);
                 monthHours += cls.hours;
             });
             
             document.getElementById('month-hours').textContent = monthHours;
-            document.getElementById('current-month').textContent = currentMonth.setLocale('ru').toFormat('LLLL yyyy');
             
             document.querySelectorAll('.delete-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
@@ -772,9 +767,8 @@
             });
         }
         
-        // Удаление занятия
         function deleteClass(id) {
-            if (confirm('Вы уверены, что хотите удалить это занятие?')) {
+            if (confirm('Удалить это занятие?')) {
                 classes = classes.filter(cls => cls.id !== id);
                 saveToLocalStorage();
                 updateStats();
@@ -782,38 +776,32 @@
             }
         }
         
-        // Добавление нового занятия
         function addClass(event) {
             event.preventDefault();
-            
             const dateInput = document.getElementById('class-date');
-            const nameInput = document.getElementById('class-name');
-            const participantsInput = document.getElementById('participants');
-            const statusSelect = document.getElementById('class-status');
+            const className = document.getElementById('class-name').value.trim();
+            const participants = parseInt(document.getElementById('participants').value);
+            const status = document.getElementById('class-status').value;
             
-            const className = nameInput.value.trim();
-            
-            if (!className) {
-                alert('Пожалуйста, введите название занятия');
-                return;
-            }
+            if (!className) { alert('Введите название занятия'); return; }
             
             const selectedDate = DateTime.fromISO(dateInput.value);
+            if (!selectedDate.isValid) { alert('Некорректная дата'); return; }
             if (selectedDate.weekday === 6 || selectedDate.weekday === 7) {
-                alert('Занятия проводятся только в рабочие дни (понедельник-пятница). Пожалуйста, выберите другую дату.');
-                return;
+                alert('Только будние дни (пн–пт).'); return;
+            }
+            if (isHoliday(selectedDate)) {
+                alert('Это праздничный день. Выберите другой.'); return;
             }
             
-            const newClass = {
+            classes.push({
                 id: Date.now() + Math.random(),
                 date: selectedDate.toJSDate(),
                 name: className,
-                participants: parseInt(participantsInput.value),
-                status: statusSelect.value,
+                participants: participants,
+                status: status,
                 hours: 2
-            };
-            
-            classes.push(newClass);
+            });
             classes.sort((a, b) => a.date - b.date);
             saveToLocalStorage();
             updateStats();
@@ -822,33 +810,21 @@
             document.getElementById('add-class-form').reset();
             document.getElementById('class-date').value = DateTime.now().toISODate();
             document.getElementById('participants').value = 10;
-            
-            alert('Занятие успешно добавлено!');
+            alert('Занятие добавлено!');
         }
         
-        // Экспорт в Excel
         function exportToExcel() {
-            if (classes.length === 0) {
-                alert('Нет данных для экспорта. Сначала добавьте занятия.');
-                return;
-            }
-            
-            // Экспортируем только данные за выбранный год
-            const yearClasses = classes.filter(cls => {
-                const classDate = DateTime.fromJSDate(cls.date);
-                return classDate.year === currentYear;
-            });
-            
+            const yearClasses = classes.filter(cls => DateTime.fromJSDate(cls.date).year === currentYear);
             if (yearClasses.length === 0) {
-                alert(`Нет данных за ${currentYear} год для экспорта.`);
+                alert(`Нет данных за ${currentYear} год.`);
                 return;
             }
             
-            const exportData = yearClasses.map(cls => {
-                const classDate = DateTime.fromJSDate(cls.date);
+            const data = yearClasses.map(cls => {
+                const d = DateTime.fromJSDate(cls.date);
                 return {
-                    'Дата': classDate.toFormat('dd.MM.yyyy'),
-                    'День недели': classDate.setLocale('ru').toFormat('EEEE'),
+                    'Дата': d.toFormat('dd.MM.yyyy'),
+                    'День недели': d.setLocale('ru').toFormat('EEEE'),
                     'Название занятия': cls.name,
                     'Количество участников': cls.participants,
                     'Статус': cls.status === 'completed' ? 'Проведено' : 'Запланировано',
@@ -856,258 +832,179 @@
                 };
             });
             
-            const ws = XLSX.utils.json_to_sheet(exportData);
+            const ws = XLSX.utils.json_to_sheet(data);
             const wb = XLSX.utils.book_new();
             XLSX.utils.book_append_sheet(wb, ws, `Занятия ${currentYear}`);
             
-            const infoData = [
+            const info = [
                 [`Коллектив декоративно-прикладного творчества "Умелые ручки"`],
                 [`Учебный год: ${currentYear}`],
                 [''],
                 ['Общее количество часов в год: 72'],
-                ['Проведено часов: ' + yearClasses.filter(cls => cls.status === 'completed').reduce((sum, cls) => sum + cls.hours, 0)],
+                ['Проведено часов: ' + yearClasses.filter(c => c.status === 'completed').reduce((s, c) => s + c.hours, 0)],
                 ['Всего занятий: ' + yearClasses.length],
-                ['Среднее количество участников: ' + Math.round(yearClasses.reduce((sum, cls) => sum + cls.participants, 0) / yearClasses.length)],
+                ['Среднее количество участников: ' + Math.round(yearClasses.reduce((s, c) => s + c.participants, 0) / yearClasses.length)],
                 [''],
                 ['Дата выгрузки: ' + DateTime.now().toFormat('dd.MM.yyyy HH:mm')]
             ];
-            
-            const wsInfo = XLSX.utils.aoa_to_sheet(infoData);
-            XLSX.utils.book_append_sheet(wb, wsInfo, 'Информация');
+            XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(info), 'Информация');
             
             XLSX.writeFile(wb, `Журнал_Умелые_ручки_${currentYear}_${DateTime.now().toFormat('yyyy-MM-dd_HH-mm')}.xlsx`);
         }
         
-        // Очистка всех данных
         function clearAllData() {
-            if (confirm(`Вы уверены, что хотите удалить ВСЕ данные из журнала (за все годы)? Это действие нельзя отменить.`)) {
+            if (confirm('Удалить ВСЕ данные (за все годы)? Действие необратимо.')) {
                 classes = [];
                 localStorage.removeItem('umelie-ruchki-classes');
                 updateStats();
                 renderClassesTable();
-                alert('Все данные удалены.');
+                alert('Данные удалены.');
             }
         }
         
-        // Импорт данных из Excel
         function importFromExcel(file, startDate, endDate) {
             const reader = new FileReader();
-            
             reader.onload = function(e) {
                 try {
-                    const data = new Uint8Array(e.target.result);
-                    const workbook = XLSX.read(data, { type: 'array' });
-                    
+                    const workbook = XLSX.read(new Uint8Array(e.target.result), { type: 'array' });
                     const firstSheet = workbook.Sheets[workbook.SheetNames[0]];
                     const jsonData = XLSX.utils.sheet_to_json(firstSheet);
+                    const imported = [];
                     
-                    const importedClasses = [];
-                    
-                    jsonData.forEach((row, index) => {
+                    jsonData.forEach((row, idx) => {
                         let dateObj;
                         if (row['Дата']) {
-                            const dateStr = row['Дата'].toString();
-                            // Поддержка разных форматов, включая Excel Date
                             if (typeof row['Дата'] === 'number') {
-                                // Excel serial date
-                                const excelDate = XLSX.SSF.parse_date_code(row['Дата']);
-                                dateObj = DateTime.local(excelDate.y, excelDate.m, excelDate.d);
+                                const ed = XLSX.SSF.parse_date_code(row['Дата']);
+                                dateObj = DateTime.local(ed.y, ed.m, ed.d);
                             } else {
-                                dateObj = DateTime.fromFormat(dateStr, 'dd.MM.yyyy') || 
-                                         DateTime.fromFormat(dateStr, 'dd-MM-yyyy') ||
-                                         DateTime.fromFormat(dateStr, 'yyyy-MM-dd') ||
-                                         DateTime.fromISO(dateStr);
+                                const s = row['Дата'].toString();
+                                dateObj = DateTime.fromFormat(s, 'dd.MM.yyyy') ||
+                                         DateTime.fromFormat(s, 'dd-MM-yyyy') ||
+                                         DateTime.fromFormat(s, 'yyyy-MM-dd') ||
+                                         DateTime.fromISO(s);
                             }
                         }
-                        
-                        if (!dateObj || !dateObj.isValid) {
-                            console.warn(`Не удалось распарсить дату в строке ${index + 1}: ${row['Дата']}`);
-                            return;
-                        }
-                        
-                        if (dateObj < startDate || dateObj > endDate) {
-                            return;
-                        }
+                        if (!dateObj || !dateObj.isValid) return;
+                        if (dateObj < startDate || dateObj > endDate) return;
                         
                         let status = 'planned';
-                        if (row['Статус']) {
-                            const statusStr = row['Статус'].toString().toLowerCase();
-                            if (statusStr.includes('проведен') || statusStr.includes('completed')) {
-                                status = 'completed';
-                            }
-                        }
+                        if (row['Статус'] && row['Статус'].toString().toLowerCase().includes('проведен')) status = 'completed';
                         
                         let participants = 10;
-                        const partValue = row['Количество участников'] || row['Участники'] || row['Кол-во человек'];
-                        if (partValue) {
-                            const partNum = parseInt(partValue.toString());
-                            if (!isNaN(partNum) && partNum >= 5 && partNum <= 15) {
-                                participants = partNum;
-                            }
+                        const pv = row['Количество участников'] || row['Участники'] || row['Кол-во человек'];
+                        if (pv) {
+                            const n = parseInt(pv.toString());
+                            if (n >= 5 && n <= 15) participants = n;
                         }
                         
-                        const name = row['Название занятия'] || row['Название'] || `Занятие ${index + 1}`;
-                        
-                        importedClasses.push({
-                            id: Date.now() + index + Math.random(),
+                        imported.push({
+                            id: Date.now() + idx + Math.random(),
                             date: dateObj.toJSDate(),
-                            name: name.toString(),
+                            name: (row['Название занятия'] || row['Название'] || `Занятие ${idx + 1}`).toString(),
                             participants: participants,
                             status: status,
                             hours: 2
                         });
                     });
                     
-                    showImportPreview(importedClasses, startDate, endDate);
-                    
-                } catch (error) {
-                    console.error('Ошибка при чтении файла:', error);
-                    alert('Ошибка при чтении Excel файла. Проверьте формат файла.');
+                    showImportPreview(imported, startDate, endDate);
+                } catch (err) {
+                    alert('Ошибка чтения файла: ' + err.message);
                 }
             };
-            
-            reader.onerror = function() {
-                alert('Ошибка при чтении файла.');
-            };
-            
             reader.readAsArrayBuffer(file);
         }
         
-        // Показать предпросмотр импорта
-        function showImportPreview(importedClasses, startDate, endDate) {
-            importPreviewData = importedClasses;
+        function showImportPreview(imported, startDate, endDate) {
+            importPreviewData = imported;
             importStartDate = startDate;
             importEndDate = endDate;
             
-            document.getElementById('preview-count').textContent = importedClasses.length;
+            document.getElementById('preview-count').textContent = imported.length;
             document.getElementById('preview-period').textContent = 
-                `${startDate.toFormat('dd.MM.yyyy')} - ${endDate.toFormat('dd.MM.yyyy')}`;
+                `${startDate.toFormat('dd.MM.yyyy')} – ${endDate.toFormat('dd.MM.yyyy')}`;
             
-            const affectedClasses = classes.filter(cls => {
-                const classDate = DateTime.fromJSDate(cls.date);
-                return classDate >= startDate && classDate <= endDate;
+            const affected = classes.filter(cls => {
+                const d = DateTime.fromJSDate(cls.date);
+                return d >= startDate && d <= endDate;
             });
-            
-            document.getElementById('preview-affected-period').textContent = 
-                `${affectedClasses.length} существующих записей будет затронуто`;
+            document.getElementById('preview-affected-period').textContent = `${affected.length} записей`;
             
             const previewBody = document.getElementById('preview-body');
             previewBody.innerHTML = '';
-            
-            const previewItems = importedClasses.slice(0, 10);
-            
-            previewItems.forEach(cls => {
-                const classDate = DateTime.fromJSDate(cls.date);
-                const formattedDate = classDate.toFormat('dd.MM.yyyy');
-                
-                const statusBadge = cls.status === 'completed' 
-                    ? '<span class="badge badge-completed">Проведено</span>' 
+            imported.slice(0, 10).forEach(cls => {
+                const d = DateTime.fromJSDate(cls.date);
+                const badge = cls.status === 'completed'
+                    ? '<span class="badge badge-completed">Проведено</span>'
                     : '<span class="badge badge-planned">Запланировано</span>';
-                
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${formattedDate}</td>
-                    <td>${cls.name}</td>
-                    <td>${cls.participants}</td>
-                    <td>${statusBadge}</td>
-                `;
-                previewBody.appendChild(row);
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${d.toFormat('dd.MM.yyyy')}</td><td>${cls.name}</td><td>${cls.participants}</td><td>${badge}</td>`;
+                previewBody.appendChild(tr);
             });
-            
-            if (importedClasses.length > 10) {
-                const row = document.createElement('tr');
-                row.innerHTML = `<td colspan="4" style="text-align: center; font-style: italic;">... и еще ${importedClasses.length - 10} записей</td>`;
-                previewBody.appendChild(row);
+            if (imported.length > 10) {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td colspan="4" style="text-align:center;font-style:italic;">... ещё ${imported.length - 10}</td>`;
+                previewBody.appendChild(tr);
             }
             
             document.getElementById('import-preview-modal').style.display = 'flex';
         }
         
-        // Подтверждение импорта
         function confirmImport() {
-            const importMode = document.querySelector('input[name="import-mode"]:checked').value;
-            
-            if (importMode === 'replace') {
+            const mode = document.querySelector('input[name="import-mode"]:checked').value;
+            if (mode === 'replace') {
                 classes = classes.filter(cls => {
-                    const classDate = DateTime.fromJSDate(cls.date);
-                    return classDate < importStartDate || classDate > importEndDate;
+                    const d = DateTime.fromJSDate(cls.date);
+                    return d < importStartDate || d > importEndDate;
                 });
             }
-            
             classes = [...classes, ...importPreviewData];
             classes.sort((a, b) => a.date - b.date);
-            
             saveToLocalStorage();
             updateStats();
             renderClassesTable();
-            
             document.getElementById('import-preview-modal').style.display = 'none';
-            
-            alert(`Успешно импортировано ${importPreviewData.length} записей.`);
+            alert(`Импортировано ${importPreviewData.length} записей.`);
         }
         
-        // Обработчики событий при загрузке страницы
         document.addEventListener('DOMContentLoaded', function() {
-            // Инициализация выпадающего списка годов
             initYearSelector();
-            
-            // Установка сегодняшней даты по умолчанию
             document.getElementById('class-date').value = DateTime.now().toISODate();
-            
-            // Инициализация журнала
             initJournal();
             
-            // Обработка смены года
             document.getElementById('global-year').addEventListener('change', function() {
                 currentYear = parseInt(this.value);
                 currentMonth = DateTime.local(currentYear, 1, 1);
-                
-                // Обновляем даты для фильтра импорта
                 document.getElementById('import-date-start').value = `${currentYear}-01-01`;
                 document.getElementById('import-date-end').value = `${currentYear}-12-31`;
-                
                 updateYearIndicators();
                 updateStats();
                 renderClassesTable();
             });
             
-            // Обработка кликов по подсказкам
             document.querySelectorAll('.suggestion-tag').forEach(tag => {
                 tag.addEventListener('click', function() {
-                    const className = this.getAttribute('data-name');
-                    document.getElementById('class-name').value = className;
+                    document.getElementById('class-name').value = this.getAttribute('data-name');
                     document.getElementById('class-name').focus();
                 });
             });
             
-            // Обработка добавления занятия
             document.getElementById('add-class-form').addEventListener('submit', addClass);
-            
-            // Обработка кнопки автозаполнения
-            document.getElementById('auto-fill').addEventListener('click', function() {
-                autoFillData(currentYear);
-            });
-            
-            // Обработка экспорта в Excel
+            document.getElementById('auto-fill').addEventListener('click', () => autoFillData(currentYear));
             document.getElementById('export-excel').addEventListener('click', exportToExcel);
-            
-            // Обработка очистки данных
             document.getElementById('clear-data').addEventListener('click', clearAllData);
             
-            // Обработка переключения месяцев
-            document.getElementById('prev-month').addEventListener('click', function() {
+            document.getElementById('prev-month').addEventListener('click', () => {
                 currentMonth = currentMonth.minus({ months: 1 });
                 renderClassesTable();
             });
-            
-            document.getElementById('next-month').addEventListener('click', function() {
+            document.getElementById('next-month').addEventListener('click', () => {
                 currentMonth = currentMonth.plus({ months: 1 });
                 renderClassesTable();
             });
-            
-            document.getElementById('today-btn').addEventListener('click', function() {
+            document.getElementById('today-btn').addEventListener('click', () => {
                 currentMonth = DateTime.now().startOf('month');
-                // Если текущий год не совпадает с выбранным - переключаем
                 if (currentMonth.year !== currentYear) {
                     currentYear = currentMonth.year;
                     if (currentYear >= minYear && currentYear <= maxYear) {
@@ -1119,58 +1016,41 @@
                 renderClassesTable();
             });
             
-            // Обработка переключения вкладок
             document.querySelectorAll('.tab').forEach(tab => {
                 tab.addEventListener('click', function() {
-                    const tabId = this.getAttribute('data-tab');
+                    const id = this.getAttribute('data-tab');
                     document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
                     document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
                     this.classList.add('active');
-                    document.getElementById(`${tabId}-tab`).classList.add('active');
+                    document.getElementById(`${id}-tab`).classList.add('active');
                 });
             });
             
-            // Обработка импорта из Excel
             document.getElementById('import-excel').addEventListener('click', function() {
                 const fileInput = document.getElementById('excel-file');
-                const startDateStr = document.getElementById('import-date-start').value;
-                const endDateStr = document.getElementById('import-date-end').value;
+                const s = document.getElementById('import-date-start').value;
+                const e = document.getElementById('import-date-end').value;
                 
-                if (!fileInput.files || fileInput.files.length === 0) {
-                    alert('Пожалуйста, выберите файл для импорта.');
-                    return;
+                if (!fileInput.files || !fileInput.files.length) {
+                    alert('Выберите файл.'); return;
                 }
+                const sd = DateTime.fromISO(s);
+                const ed = DateTime.fromISO(e);
+                if (!sd.isValid || !ed.isValid) { alert('Некорректные даты.'); return; }
+                if (sd > ed) { alert('Начальная дата позже конечной.'); return; }
                 
-                const startDate = DateTime.fromISO(startDateStr);
-                const endDate = DateTime.fromISO(endDateStr);
-                
-                if (!startDate.isValid || !endDate.isValid) {
-                    alert('Пожалуйста, укажите корректные даты для фильтрации.');
-                    return;
-                }
-                
-                if (startDate > endDate) {
-                    alert('Начальная дата не может быть позже конечной даты.');
-                    return;
-                }
-                
-                importFromExcel(fileInput.files[0], startDate, endDate);
+                importFromExcel(fileInput.files[0], sd, ed);
             });
             
             document.getElementById('confirm-import').addEventListener('click', confirmImport);
-            
-            document.getElementById('cancel-import').addEventListener('click', function() {
+            document.getElementById('cancel-import').addEventListener('click', () => {
                 document.getElementById('import-preview-modal').style.display = 'none';
             });
-            
-            document.getElementById('close-preview').addEventListener('click', function() {
+            document.getElementById('close-preview').addEventListener('click', () => {
                 document.getElementById('import-preview-modal').style.display = 'none';
             });
-            
             document.getElementById('import-preview-modal').addEventListener('click', function(e) {
-                if (e.target === this) {
-                    this.style.display = 'none';
-                }
+                if (e.target === this) this.style.display = 'none';
             });
         });
     </script>
